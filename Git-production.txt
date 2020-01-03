@@ -1,0 +1,15 @@
+Beginning of project:
+
+git init
+git add .
+git commit -m "initial commit"
+git remote add origin remote repository URL
+git remote -v
+git push -f origin master
+
+
+In Production:
+
+git add .
+git commit -m "initial commit"
+git push -f origin master

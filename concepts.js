@@ -268,28 +268,37 @@ class Clock extends React.Component {
 
 // ReactDOM.render(<Clock />, document.getElementById("root"));
 
-// class Toggle extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = { isToggleOn: true };
+function WarningBanner(props) {
+  if (!props.warn) {
+    return null;
+  }
 
-//     // This binding is necessary to make `this` work in the callback
-//     this.handleClick = this.handleClick.bind(this);
-//   }
+  return <div className="warning">Warning!</div>;
+}
 
-//   handleClick() {
-//     this.setState(prevState => ({
-//       isToggleOn: !prevState.isToggleOn
-//     }));
-//   }
+class Page extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { showWarning: true };
+    this.handleToggleClick = this.handleToggleClick.bind(this);
+  }
 
-//   render() {
-//     return (
-//       <button onClick={this.handleClick}>
-//         {this.state.isToggleOn ? "ON" : "OFF"}
-//       </button>
-//     );
-//   }
-// }
+  handleToggleClick() {
+    this.setState(prevState => ({
+      showWarning: !prevState.showWarning
+    }));
+  }
 
-// ReactDOM.render(<Toggle />, document.getElementById("root"));
+  render() {
+    return (
+      <div>
+        <WarningBanner warn={this.state.showWarning} />
+        <button onClick={this.handleToggleClick}>
+          {this.state.showWarning ? "Hide" : "Show"}
+        </button>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<Page />, document.getElementById("root"));

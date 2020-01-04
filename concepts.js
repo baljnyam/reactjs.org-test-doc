@@ -293,45 +293,119 @@ class Clock extends React.Component {
 // }
 
 // ReactDOM.render(<Toggle />, document.getElementById("root"));
-function WarningBanner(props) {
-  if (!props.warn) {
-    return null
+}
+​
+function UserGreeting(props) {
+  return <h1>Welcome back!</h1>;
+}
+​
+function GuestGreeting(props) {
+  return <h1>Please sign up.</h1>;
+}
+​
+function Greeting(props) {
+  const isLoggedIn = props.isLoggedIn;
+  if (isLoggedIn) {
+    return <UserGreeting />;
   }
-
+  return <GuestGreeting />;
+}
+​
+function LoginButton(props) {
   return (
-    <div className="warning">
-      Warning!
-    </div>
+    <button onClick={props.onClick}>
+      Login
+    </button>
+  );
+}
+​
+function LogoutButton(props) {
+  return (
+    <button onClick={props.onClick}>
+      Logout
+    </button>
+  );
+}
+​
+ReactDOM.render(
+  <LoginControl />,
+  document.getElementById('root')
+);
+
+// List and Key
+
+function ListItem(props) {
+  return <li>{props.value}</li>
+}
+
+function NumberList(props) {
+  const numbers = props.numbers
+  return (
+    <ul>
+      {numbers.map((number) =>
+      <ListItem key={number.toString()}
+      value={number} />
+      )}
+      </ul>
   )
 }
 
-class page extends React.Component {
-  constructor(props) {
-    super(props) {
-      this.state = {showWarning: true}
-      this.handleToggleClick =
-      this.handleToggleClick.bind(this)
-    }
-    this.handleToggleClick() {
-      this.setState(prevState => ({
-        showWarning: !prevState.showWarning
-      }))
-    }
+const numbers = [1,2,3,4,5]
+ReactDOM.render(
+  <NumberList numers={numbers} />,
+  document.getElementById('root')
+)
 
-    render() {
-      return (
-        <div>
-          <WarningBanner warn={this.state.showWarning} />
-          <button onClick={this.handleToggleClick}>
-            {this.state.showWarning ? 'Hide' : 'Show'}
-          </button>
-        </div>
-      )
-    }
+// Forms
+
+class Reservation extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isGoing: true,
+      numberOfGuests: 2
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  ReactDOM.render(
-    <Page />,
-    document.getElementById('root')
-  )
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  render() {
+    return (
+      <form>
+        <label>
+          Is going:
+          <input
+            name="isGoing"
+            type="checkbox"
+            checked={this.state.isGoing}
+            onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Number of guests:
+          <input
+            name="numberOfGuests"
+            type="number"
+            value={this.state.numberOfGuests}
+            onChange={this.handleInputChange} />
+        </label>
+      </form>
+    );
+  }
 }
+
+ReactDOM.render(
+  <Reservation />,
+  document.getElementById('root')
+);
+
